@@ -12,19 +12,19 @@ enables everyone to create autocomplete maps à la "Why is [] so ..."
 
 ## Things To Clarify
 
-1. AngularJS vs. EmberJS vs. Plain JS vs. Apache Wicket 
-   -> do a dice shootout
+1. AngularJS vs. EmberJS vs. Plain JS vs. Apache Wicket<br /> 
+   -> do a dice shootout<br />
    => EmberJS
-2. easy peasy D3 vs. MapboxGL
-   -> plain D3 offers more freedom in map projections
-   -> plain D3 offers more freedom in label placement
-   -> D3 SVG overlay over MapboxGL?
+2. easy peasy D3 vs. MapboxGL<br />
+   -> plain D3 offers more freedom in map projections<br />
+   -> plain D3 offers more freedom in label placement<br />
+   -> D3 SVG overlay over MapboxGL?<br />
    => D3 for first solution!
-3. Suggestion on front-end or back-end side?
+3. Suggestion on front-end or back-end side?<br />
    => first solution front-end only!
-4. Where to upload the files?
-   -> Dropbox / S3 / maybe on Heroku
+4. Where to upload the files?<br />
+   -> Dropbox / S3 / maybe on Heroku<br />
    => GeoJSON textfield for first solution!
-5. Application hosting on Heroku?
-   => why not?
+5. Application hosting on Heroku?<br />
+   => why not?<br />
    => Heroku!
