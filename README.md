@@ -12,7 +12,7 @@ enables everyone to create autocomplete maps à la "Why is [] so ..."
 
 ## Things To Clarify
 
-1. AngularJS vs. EmberJS vs. Plain JS
+1. AngularJS vs. EmberJS vs. Plain JS vs. Apache Wicket 
    -> do a dice shootout
    => EmberJS
 2. easy peasy D3 vs. MapboxGL
