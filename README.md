@@ -27,3 +27,10 @@ enables everyone to create autocomplete maps à la "Why is [] so ..."
 5. Application hosting on Heroku?<br />
    => why not?<br />
    => Heroku!
+
+# Technical
+
+## start
+
+1. `npm run start`
+2. open http://localhost:3000 
