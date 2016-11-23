@@ -12,9 +12,8 @@ enables everyone to create autocomplete maps à la "Why is [] so ..."
 
 ## Things To Clarify
 
-1. AngularJS vs. EmberJS vs. Plain JS vs. Apache Wicket<br /> 
-   -> do a dice shootout<br />
-   => EmberJS
+1. AngularJS vs. EmberJS vs. Plain JS vs. Apache Wicket vs...<br /> 
+   => Bootstrap, RiotJS, ReduxJS
 2. easy peasy D3 vs. MapboxGL<br />
    -> plain D3 offers more freedom in map projections<br />
    -> plain D3 offers more freedom in label placement<br />
