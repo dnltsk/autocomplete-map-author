@@ -39,8 +39,8 @@ function clicked(d) {
 
     // Highlight the clicked province
     mapLayer.selectAll('path')
-        .style('fill', function (d) {
-            return centered && d === centered ? '#D5708B' : "white";
+        .classed("centered", function (d) {
+            return centered && d === centered;
         });
 
     // Zoom
@@ -51,14 +51,14 @@ function clicked(d) {
 
 function mouseover(d) {
     // Highlight hovered province
-    d3.select(this).style('fill', 'orange');
+    d3.select(this).classed('mouseover', true);
 }
 
 function mouseout(d) {
     // Reset province color
     mapLayer.selectAll('path')
-        .style('fill', function (d) {
-            return centered && d === centered ? '#D5708B' : "white";
+        .classed('mouseover', function (d) {
+            return centered && d === centered;
         });
 
     // Remove effect text
@@ -81,7 +81,8 @@ function initMap() {
 
     // Add background
     svg.append('rect')
-        .attr('class', 'background')
+        .classed('background', true)
+        .attr('width', width)
         .attr('width', width)
         .attr('height', height)
         .on('click', clicked);
@@ -136,7 +137,6 @@ function updateMap(){
         .enter().append('path')
         .attr('d', path)
         .attr('vector-effect', 'non-scaling-stroke')
-        .style('fill', "white")
         .on('mouseover', mouseover)
         .on('mouseout', mouseout)
         .on('click', clicked);

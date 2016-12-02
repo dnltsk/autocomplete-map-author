@@ -16,8 +16,13 @@
 
     <script src="/javascripts/map.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body onload="initMap()">
@@ -27,7 +32,7 @@
         <form>
           <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title">
+            <input type="text" class="form-control" id="title" disabled="disabled">
           </div>
           <div class="form-group">
             <label for="geojson">GeoJSON:</label><br>
@@ -38,9 +43,11 @@
           <div calss="form-group">
             <label for="projection">Target Projection:</label><br>
             <select class="selectpicker" id="targetProjection" onchange="updateMap()">
-              <option selected="selected" value="mercator">Mercator</option>
-              <option value="conicEqualArea">Conic Equal Area</option>
-              <option value="albers">Albers (USA)</option>
+              <optgroup label="World">
+                <option selected="selected" value="mercator">Mercator</option>
+                <option value="conicEqualArea">Conic Equal Area</option>
+              <optgroup label="Region">
+                <option value="albers">Albers (USA)</option>
             </select>
           </div>
           <div calss="form-group">

@@ -6,3 +6,21 @@ body {
 a {
   color: #00B7FF;
 }
+
+/**
+ * MAP
+ */
+rect.background{
+  fill:white;
+}
+path {
+  stroke: black;
+  stroke-width: 2px;
+  fill: white;
+}
+path.mouseover {
+  fill: orange;
+}
+path.centered {
+  fill: #D5708B;
+}
