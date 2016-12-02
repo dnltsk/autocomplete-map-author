@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
-  <body onload="initMap();initGeoJSON();">
+  <body onload="initMap()">
     <h1><%= title %></h1>
     <div class="row">
       <div class="col-md-4">
@@ -30,10 +30,22 @@
             <input type="text" class="form-control" id="title">
           </div>
           <div class="form-group">
-            <label for="geojson">GeoJSON:</label>
+            <label for="geojson">GeoJSON:</label><br>
+            <button type="button" class="btn btn-default" onclick="initBerlin()">Sample Berlin</button>
+            <button type="button" class="btn btn-default" onclick="initColumbia()">Sample Columbia</button><br>
             <textarea class="form-control" rows="5" id="geojson"></textarea>
           </div>
-          <button type="button" class="btn btn-default" onclick="updateMap()">Update Map</button>
+          <div calss="form-group">
+            <label for="projection">Target Projection:</label><br>
+            <select class="selectpicker" id="targetProjection" onchange="updateMap()">
+              <option selected="selected" value="mercator">Mercator</option>
+              <option value="conicEqualArea">Conic Equal Area</option>
+              <option value="albers">Albers (USA)</option>
+            </select>
+          </div>
+          <div calss="form-group">
+            <button type="button" class="btn btn-default" onclick="updateMap()">Update Map</button>
+          </div>
         </form>
       </div>
 

@@ -106,9 +106,17 @@ function initMap() {
         .attr('y', 45);
 }
 
-function initGeoJSON(){
+function initBerlin(){
     d3.json('/geojson/berlin.json', function (error, mapData) {
         d3.select("#geojson").node().value = JSON.stringify(mapData, null, 2);
+        updateMap();
+    });
+}
+
+function initColumbia(){
+    d3.json('/geojson/columbia.json', function (error, mapData) {
+        d3.select("#geojson").node().value = JSON.stringify(mapData, null, 2);
+        updateMap();
     });
 }
 
@@ -116,27 +124,8 @@ function updateMap(){
     console.log("updateMap()", JSON.parse(d3.select("#geojson").node().value).features);
 
     var geojson = JSON.parse(d3.select("#geojson").node().value);
-
-    var center = d3.geoCentroid(geojson)
-    var scale  = 1;
-    var offset = [width/2, height/2];
-    var projection = d3.geoMercator().scale(scale).center(center)
-        .translate(offset);
-
-    // create the path
+    var projection = getSelectedProjection().fitSize([width, height], geojson);
     path = d3.geoPath().projection(projection);
-
-    // using the path determine the bounds of the current map and use
-    // these to determine better values for the scale and translation
-    var bounds  = d3.geoBounds(geojson);
-    var hscale = width / (bounds[1][0] - bounds[0][0]);
-    var vscale = height / (bounds[1][1] - bounds[0][1]);
-    var scale   = (hscale > vscale) ? hscale : vscale;
-    var offset  = [width - (bounds[0][0] + bounds[1][0])/2, height - (bounds[0][1] + bounds[1][1])/2];
-
-    // new projection
-    projection.center(center)
-        .scale(scale).translate(offset);
 
     // drop each province as a path
     mapLayer.selectAll('path').remove();
@@ -151,4 +140,19 @@ function updateMap(){
         .on('mouseover', mouseover)
         .on('mouseout', mouseout)
         .on('click', clicked);
+}
+
+function getSelectedProjection(){
+    var targetProjection = d3.select('#targetProjection').node();
+    var selectedProjection = targetProjection.options[targetProjection.selectedIndex].value;
+    switch(selectedProjection){
+        case "conicEqualArea":
+            return d3.geoConicEqualArea();
+        case "albers":
+            return d3.geoAlbers();
+        case "latlon":
+        default:
+            return d3.geoMercator();
+    }
+
 }
