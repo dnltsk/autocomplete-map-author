@@ -40,7 +40,7 @@
             <button type="button" class="btn btn-default" onclick="initColumbia()">Sample Columbia</button><br>
             <textarea class="form-control" rows="5" id="geojson"></textarea>
           </div>
-          <div calss="form-group">
+          <div class="form-group">
             <label for="projection">Target Projection:</label><br>
             <select class="selectpicker" id="targetProjection" onchange="updateMap()">
               <optgroup label="World">
@@ -50,8 +50,16 @@
                 <option value="albers">Albers (USA)</option>
             </select>
           </div>
-          <div calss="form-group">
+          <div class="form-group">
             <button type="button" class="btn btn-default" onclick="updateMap()">Update Map</button>
+          </div>
+
+
+          <h2>Labels</h2>
+          <div class="form-group">
+            <label for="title">Pattern:</label>
+            <input type="text" class="form-control" id="labelPattern">
+            <button type="button" class="btn btn-default" onclick="updateLabels()">Update Labels</button>
           </div>
         </form>
       </div>

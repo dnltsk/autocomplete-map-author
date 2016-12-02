@@ -2,10 +2,12 @@ var width = 800,
     height = 500,
     centered,
     mapLayer,
+    labelLayer,
     effectLayer,
     bigText,
     path,
-    g;
+    g,
+    geojson;
 
 // Define color scale
 var color = d3.scaleLinear()
@@ -95,6 +97,9 @@ function initMap() {
     mapLayer = g.append('g')
         .classed('map-layer', true);
 
+    labelLayer = g.append('g')
+        .classed('label-layer', true);
+
     var dummyText = g.append('text')
         .classed('dummy-text', true)
         .attr('x', 10)
@@ -109,14 +114,16 @@ function initMap() {
 
 function initBerlin(){
     d3.json('/geojson/berlin.json', function (error, mapData) {
-        d3.select("#geojson").node().value = JSON.stringify(mapData, null, 2);
+        geojson = mapData;
+        d3.select("#geojson").node().value = JSON.stringify(geojson, null, 2);
         updateMap();
     });
 }
 
 function initColumbia(){
     d3.json('/geojson/columbia.json', function (error, mapData) {
-        d3.select("#geojson").node().value = JSON.stringify(mapData, null, 2);
+        geojson = mapData;
+        d3.select("#geojson").node().value = JSON.stringify(geojson, null, 2);
         updateMap();
     });
 }
@@ -124,8 +131,7 @@ function initColumbia(){
 function updateMap(){
     console.log("updateMap()", JSON.parse(d3.select("#geojson").node().value).features);
 
-    var geojson = JSON.parse(d3.select("#geojson").node().value);
-    var projection = getSelectedProjection().fitSize([width, height], geojson);
+    projection = getSelectedProjection().fitSize([width, height], geojson);
     path = d3.geoPath().projection(projection);
 
     // drop each province as a path
@@ -155,4 +161,56 @@ function getSelectedProjection(){
             return d3.geoMercator();
     }
 
+}
+
+
+/**
+ * LABELS
+ */
+function updateLabels(){
+
+    var labelPattern = d3.select("#labelPattern").node().value;
+
+    var centroids = [];
+    geojson.features.forEach(function (f) {
+        console.log("f", f);
+        var c = path.centroid(f);
+        centroids.push(
+            {
+                center: c,
+                label: f.properties[labelPattern]
+            });
+    });
+
+    labelLayer.selectAll("text").remove();
+    labelLayer.selectAll("text")
+        .data(centroids)
+        .enter()
+        .append('text')
+        .attr("dx", function(d) {
+            return d.center[0];
+        })
+        .attr("dy", function(d) {
+            return d.center[1];
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d){
+           return d.label;
+        });
+
+    /*
+    labelLayer.selectAll("circle").remove();
+    labelLayer.selectAll("circle")
+        .data(centroids)
+        .enter()
+        .append('circle')
+        .attr("cx", function(d) {
+            return d.center[0];
+        })
+        .attr("cy", function(d) {
+            return d.center[1];
+        })
+        .attr("fill", "green")
+        .attr("r", 5);
+    */
 }
