@@ -2,6 +2,8 @@
 
 enables everyone to create autocomplete maps à la "Why is [] so ..."
 
+![latest screenshot](screenshot.png)
+
 ## Basic Concept
 
 1. user uploads GeoJSON file with Geometries and Properties
