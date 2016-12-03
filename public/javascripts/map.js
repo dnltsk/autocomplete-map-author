@@ -7,19 +7,8 @@ var width = 800,
     bigText,
     path,
     g,
-    geojson;
-
-// Define color scale
-var color = d3.scaleLinear()
-    .domain([1, 20])
-    .clamp(true)
-    .range(['#fff', '#409A99']);
-
-var projection = d3.geoMercator()
-    .scale(1500)
-    // Center the Map in Colombia
-    .center([-74, 4.5])
-    .translate([width / 2, height / 2]);
+    geojson,
+    projection ;
 
 // When clicked, zoom in
 function clicked(d) {
@@ -198,7 +187,7 @@ function updateLabels(){
            return d.label;
         });
 
-    /*
+
     labelLayer.selectAll("circle").remove();
     labelLayer.selectAll("circle")
         .data(centroids)
@@ -212,5 +201,5 @@ function updateLabels(){
         })
         .attr("fill", "green")
         .attr("r", 5);
-    */
+
 }
