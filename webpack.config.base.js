@@ -1,10 +1,15 @@
 var path = require('path');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src',
+  devtool: 'cheap-source-map',
   plugins: [
-    new webpack.ProvidePlugin({riot: 'riot'})
+    new webpack.ProvidePlugin({riot: 'riot'}),
+    new HtmlWebpackPlugin({
+      template: './index.template.html'
+    })
   ],
   module: {
     preLoaders: [
