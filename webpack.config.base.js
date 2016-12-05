@@ -4,15 +4,16 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src',
-  devtool: 'cheap-source-map',
   plugins: [
     new webpack.ProvidePlugin({riot: 'riot'}),
     new HtmlWebpackPlugin({
+      hash: true,
+      filename: 'index.html',
       template: './index.template.html'
     })
   ],
   module: {
-    preLoaders: [
+    loaders: [
       {
         test: /\.tag$/,
         exclude: /node_modules/,
@@ -20,18 +21,26 @@ module.exports = {
         query: {
           type: 'babel'
         }
-      }
-    ],
-    loaders: [
-      {
-        test: /\.js|\.tag$/,
+      }, {
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      }, {
+        test: /\.css$/,
+        loader: "style!css"
+      }, {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "url-loader?limit=10000&minetype=application/font-woff"
+      }, {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "file-loader"
       }
     ]
   },
   output: {
-    path: path.resolve(__dirname + '/build'),
+    path: 'build',
+    // path: __dirname + '/build',
+    publicPath: '/soooosoosos',
     filename: 'bundle.js'
   },
   resolve: {
