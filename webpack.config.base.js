@@ -40,7 +40,7 @@ module.exports = {
   output: {
     path: 'build',
     // path: __dirname + '/build',
-    publicPath: '/soooosoosos',
+    publicPath: '/',
     filename: 'bundle.js'
   },
   resolve: {

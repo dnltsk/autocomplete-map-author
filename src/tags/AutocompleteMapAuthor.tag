@@ -20,8 +20,8 @@
             <optgroup label="World">
               <option selected="selected" value="mercator">Mercator</option>
               <option value="conicEqualArea">Conic Equal Area</option>
-              <optgroup label="Region">
-                <option value="albers">Albers (USA)</option>
+            <optgroup label="Region">
+              <option value="albers">Albers (USA)</option>
           </select>
         </div>
         <div class="form-group">
@@ -75,6 +75,7 @@
 <script type="babel">
 
   import * as d3 from 'd3'
+  import { Promise } from 'bluebird'
 
   var width = 800,
       height = 500,
@@ -89,11 +90,12 @@
       projection ;
 
   const thisTag = this
+  const loadJson = Promise.promisify(d3.json)
 
   this.on('mount', () => initMap() )
 
   // When clicked, zoom in
-  function clicked(d) {
+  const clicked = d => {
       var x, y, k;
 
       // Compute centroid of the selected path
@@ -122,12 +124,12 @@
           .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
   }
 
-  function mouseover(d) {
+  const mouseover = d => {
       // Highlight hovered province
       d3.select(this).classed('mouseover', true);
   }
 
-  function mouseout(d) {
+  const mouseout = d => {
       // Reset province color
       mapLayer.selectAll('path')
           .classed('mouseover', function (d) {
@@ -143,8 +145,7 @@
       bigText.text('');
   }
 
-  function initMap() {
-
+  const initMap = () => {
       // Set svg width & height
       var svg = d3.select('svg')
           .attr('width', width)
@@ -178,42 +179,40 @@
   }
 
   this.initBerlin = () => {
-      d3.json('https://raw.githubusercontent.com/berlinermorgenpost/Berlin-Geodaten/master/berlin_bezirke.geojson', function (error, mapData) {
-          geojson = mapData;
-          d3.select("#geojson").node().value = JSON.stringify(geojson, null, 2);
-          thisTag.updateMap();
-      });
+    initGeoJson('https://raw.githubusercontent.com/berlinermorgenpost/Berlin-Geodaten/master/berlin_bezirke.geojson')
   }
 
   this.initColumbia = () => {
-      d3.json('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json', function (error, mapData) {
-          geojson = mapData;
-          d3.select("#geojson").node().value = JSON.stringify(geojson, null, 2);
-          thisTag.updateMap();
-      });
+    initGeoJson('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+  }
+
+  const initGeoJson = url => {
+    loadJson(url)
+      .then(json => {geojson = json; return JSON.stringify(json, null, 2)})
+      .then(json => d3.select("#geojson").node().value = json)
+      .then(() => this.updateMap())
+      .catch(console.error);
   }
 
   this.updateMap = () => {
-      console.log("updateMap()", JSON.parse(d3.select("#geojson").node().value).features);
+    projection = getSelectedProjection().fitSize([width, height], geojson);
+    path = d3.geoPath().projection(projection);
 
-      projection = getSelectedProjection().fitSize([width, height], geojson);
-      path = d3.geoPath().projection(projection);
+    // drop each province as a path
+    mapLayer.selectAll('path').remove();
 
-      // drop each province as a path
-      mapLayer.selectAll('path').remove();
-
-      // draw each province as a path
-      mapLayer.selectAll('path')
-          .data(geojson.features)
-          .enter().append('path')
-          .attr('d', path)
-          .attr('vector-effect', 'non-scaling-stroke')
-          .on('mouseover', mouseover)
-          .on('mouseout', mouseout)
-          .on('click', clicked);
+    // draw each province as a path
+    mapLayer.selectAll('path')
+        .data(geojson.features)
+        .enter().append('path')
+        .attr('d', path)
+        .attr('vector-effect', 'non-scaling-stroke')
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
+        .on('click', clicked);
   }
 
-  function getSelectedProjection(){
+  const getSelectedProjection = () => {
       var targetProjection = d3.select('#targetProjection').node();
       var selectedProjection = targetProjection.options[targetProjection.selectedIndex].value;
       switch(selectedProjection){
@@ -232,8 +231,7 @@
   /**
    * LABELS
    */
-  function updateLabels(){
-
+  const updateLabels = () => {
       var labelPattern = d3.select("#labelPattern").node().value;
 
       var centroids = [];
