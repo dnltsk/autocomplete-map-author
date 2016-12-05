@@ -92,7 +92,11 @@
   const thisTag = this
   const loadJson = Promise.promisify(d3.json)
 
-  this.on('mount', () => initMap() )
+  this.on('mount', () => {
+      initMap();
+      // http://reactkungfu.com/2015/10/integrating-jquery-chosen-with-webpack-using-imports-loader/
+      // $('.selectpicker').selectpicker('render');
+  })
 
   // When clicked, zoom in
   const clicked = d => {
