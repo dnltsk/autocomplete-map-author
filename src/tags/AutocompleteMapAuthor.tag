@@ -124,12 +124,19 @@
           .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
   }
 
-  const mouseover = d => {
+/*
+    As was mentioned previously, the this keyword works differently in arrow functions.
+    The methods call(), apply(), and bind() will not change the value of this in arrow
+    functions. (In fact, the value of this inside of a function simply can’t be
+    changed–it will be the same value as when the function was called.) If you need
+    to bind to a different value, you’ll need to use a function expression.
+*/
+  const mouseover = function(d) {
       // Highlight hovered province
       d3.select(this).classed('mouseover', true);
   }
 
-  const mouseout = d => {
+  const mouseout = function(d) {
       // Reset province color
       mapLayer.selectAll('path')
           .classed('mouseover', function (d) {
